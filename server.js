@@ -19,15 +19,6 @@ const db  = mysql.createConnection({
     database: "user_registration_system"
 });
 
-
-
-//setting up path sets and use
-const viewsPath = path.join(__dirname, '/views');
-app.set('view engine', 'hbs');
-app.set('views', viewsPath);
-app.use(express.urlencoded());
-app.use(express.json());
-
 // connect to db
 db.connect( (error) => {
     if(error) {
@@ -38,11 +29,49 @@ db.connect( (error) => {
 });
 
 
+//setting up path sets and use
+const viewsPath = path.join(__dirname, '/views');
+app.set('view engine', 'hbs');
+app.set('views', viewsPath);
+app.use(express.urlencoded());
+app.use(express.json());
+app.use(session({
+	secret: 'secret',
+	resave: true,
+	saveUninitialized: true
+}));
+app.use(bodyParser.urlencoded({extended : true}));
+app.use(bodyParser.json());
 
-//index page render 
+
+
+
+//index page render (GET)
 app.get("/", (req, res) => {
     res.render("index")    
 });
+
+// index auth (POST)
+app.post('/auth', (req, res) => {
+	let email = req.body.email;
+	var password = req.body.password;
+	if (email && password) {
+		db.query('SELECT * FROM members WHERE email = ? AND password = ?', [email, password], (error, results, fields) => {
+			if (results.length > 0) {
+				req.session.loggedin = true;
+				req.session.email = email;
+                res.redirect('/landing');
+			} else {
+				res.send('<h1>Incorrect Username and/or Password, please try again</h1>');
+			}			
+			res.end();
+		});
+	} else {
+		res.send('Please enter Username and Password!');
+		res.end();
+	}
+});
+
 
 
 
