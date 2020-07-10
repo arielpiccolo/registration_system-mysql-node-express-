@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>testing page</title>
+</head>
+
+<body>
+    <h4>from inside test</h4>
+
+    <h1>User registration system</h1>
+    <h4>Members:</h4>
+
+    <ul>
+        {{!-- each is like a loop --}}
+        {{#each members}}
+        {{!-- targeting info from the classic models database --}}
+        <li>{{this.name}} {{this.email}}</li>
+
+        {{/each}}
+
+    </ul>
+
+</body>
+
+</html>

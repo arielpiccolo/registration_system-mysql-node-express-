@@ -20,6 +20,7 @@
   "homepage": "https://github.com/arielpiccolo/registration_system-mysql-node-express-#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "hbs": "^4.1.1",
     "mysql": "^2.18.1"
   },
