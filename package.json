@@ -1,0 +1,29 @@
+{
+  "name": "registration_system-mysql-node-express-",
+  "version": "1.0.0",
+  "description": "WIP code nation boot-camp project, based on node,mysql,express. # registration_system-mysql-node-express-",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arielpiccolo/registration_system-mysql-node-express-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arielpiccolo/registration_system-mysql-node-express-/issues"
+  },
+  "homepage": "https://github.com/arielpiccolo/registration_system-mysql-node-express-#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "hbs": "^4.1.1",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
