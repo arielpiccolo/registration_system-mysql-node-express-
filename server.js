@@ -96,14 +96,32 @@ app.post("/register", (req, res) => {
     let Name = req.body.regName;
     let Email = req.body.regEmail;
     let Password = req.body.regPassword;
-        res.render("register", {
-            
-            data: [Name, Email, Password]
         
-            
+        db.query('SELECT email FROM members WHERE email= ?',
+        [Email], (error, results) => {
+            if( results.length > 0 ) {
+                res.render("register", {
+                    data: "Sorry user taken"
+                })
+            } else {
+                db.query('INSERT INTO members SET ?',
+                {name: Name, email: Email, password: Password}, (error,results) => {
+                    if (error) {
+                        res.render("register", {
+                            data: "Sorry there has been an error"
+                        })
+                    } else {
+                        res.render("register", {
+                            data: "User registered"
+                        })
+                    }
+                })
+            }
+              
+        })  
+
 }) ;
 
-})
 
 
 
