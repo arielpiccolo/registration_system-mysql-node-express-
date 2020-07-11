@@ -1,4 +1,4 @@
-//imports
+//? =========================================== IMPORTS ===========================================================================
 const express = require("express");
 const path = require("path");
 const app = express();
@@ -10,9 +10,11 @@ const hbs = require('hbs');
 
 // other variables
 const Error = "There has been an error we your request, please try again"
+// ? ==================================================================================================================================
 
 
-//setting up path sets and use
+
+//? ========================================== PATHS, SETS AND USES ==============================================================
 const viewsPath = path.join(__dirname, '/views');
 app.set('view engine', 'hbs');
 app.set('views', viewsPath);
@@ -25,10 +27,12 @@ app.use(session({
 }));
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
+// ? ===============================================================================================================================
 
 
 
-// setting up initial connection to the db
+
+// ? ================================================ DB CONNECTION =================================================================
 const db  = mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -37,7 +41,6 @@ const db  = mysql.createConnection({
     database: "user_registration_system"
 });
 
-// connect to db
 db.connect( (error) => {
     if(error) {
         console.log(error)
@@ -45,11 +48,12 @@ db.connect( (error) => {
         console.log('Successfully connected to user_registration_system database ');
     }
 });
+//?===========================================================================================================================
 
 
 
-// !!!!!!!!!!!!!!!!  login - works leave alone  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//index page render (GET)
+
+//?====================================================INDEX RENDER(GET AND POST)=============================================
 app.get("/", (req, res) => {
     res.render("index")    
 });
@@ -60,7 +64,7 @@ app.post('/auth', (req, res) => {
 	let email = req.body.email;
 	let password = req.body.password;
 	if (email && password) {
-		db.query('SELECT * FROM members WHERE email = ? AND password = ?', [email, password], (error, results, fields) => {
+		db.query('SELECT * FROM members WHERE email = ? AND password = ?', [email, password], (error, results) => {
 			if (results.length > 0) {
 				req.session.loggedin = true;
 				req.session.email = email;
@@ -76,18 +80,17 @@ app.post('/auth', (req, res) => {
 	}
 });
 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-
 //!  button in index to register page DO NOT REMOVE!
 //!++++++++++++++++++++++++++++++++++++++++++++++++
 app.post("/goReg", (req, res) => {
     res.redirect("register")
 })
 //!++++++++++++++++++++++++++++++++++++++++++++++++
+// ? ===============================================================================================================================
 
-// register page render
+
+
+//?===================================================REGISTER RENDER (GET AND POST)================================================
 app.get("/register", (req, res) => {
     res.render("register")
 });
@@ -96,21 +99,48 @@ app.post("/register", (req, res) => {
     let Name = req.body.regName;
     let Email = req.body.regEmail;
     let Password = req.body.regPassword;
-        res.render("register", {
-            
-            data: [Name, Email, Password]
         
-            
+        db.query('SELECT email FROM members WHERE email= ?',
+        [Email], (error, results) => {
+            if( results.length > 0 ) {
+                res.render("register", {
+                    data: "Sorry user taken"
+                })
+            } else {
+                db.query('INSERT INTO members SET ?',
+                {name: Name, email: Email, password: Password}, (error,results) => {
+                    if (error) {
+                        res.render("register", {
+                            data: "Sorry there has been an error"
+                        })
+                    } else {
+                        res.render("register", {
+                            data: "User registered"
+                        })
+                    }
+                })
+            }
+              
+        })  
+
 }) ;
 
-})
+// ? ====================================================================================================================================
 
 
+// ? ===============================================ADMIN PAGE=========================================================================
+app.get("/admin", (req, res) => {
 
+    db.query('SELECT * FROM members', (error, results) => {
+        console.log(results);
 
+        res.render("admin", {
+            members: results
+        })
+    })
 
-
-
+});
+// ? =====================================================================================================================================
 
 
 
@@ -130,7 +160,9 @@ app.get("/update", (req, res) => {
     res.render("update")    
 });
 
-//the following code is only to test render to the database 
+
+
+// ? =========================the following code is only to test render to the database ================================================= 
 //!+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ for testing access to database DO NOT TOUCH!
 app.get("/test", (req, res) => {
 
@@ -144,6 +176,10 @@ app.get("/test", (req, res) => {
 
 });
 //!+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ? ======================================================================================================================================
+
+
+
 
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! getaway -> leave alone!
@@ -160,6 +196,7 @@ app.listen(3000, () => {
 
 
 
+// ?========================================================END=========================================================================
 
 
 
@@ -169,8 +206,7 @@ app.listen(3000, () => {
 
 
 
-
-
+// ! SOME BACKUP BELLOW
 
 // index register(POST) for register
 // app.post("/reg", (req, res) => {
