@@ -7,6 +7,7 @@ const { create } = require("hbs");
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const hbs = require('hbs');
+// const alert = require('alert-node')
 
 // other variables
 const Error = "There has been an error we your request, please try again"
@@ -133,21 +134,47 @@ app.get("/admin", (req, res) => {
 
     db.query('SELECT * FROM members', (error, results) => {
         console.log(results);
-
         res.render("admin", {
             members: results
         })
     })
-
+  
 });
+
+
 // ? =====================================================================================================================================
 
-
+// ?=============================================DELETING DATABASE RECORDS===============================================================
 
 // delete render
-app.get("/deleting", (req, res) => {
+app.get("/del", (req, res) => {
     res.render("deleting")    
 });
+
+
+
+app.post("/delRecord", (req, res) => {
+    let deleteEmail = req.body.emailRecord;
+    let sqlCall = "DELETE  FROM members where email = ?"
+    let locate = req.params.email;
+    let user = [deleteEmail, locate];
+
+    db.query( sqlCall, user, (error, results) => {
+        if(error) {
+            console.log(error);
+            res.render("deleting", {
+                message: "There was an error updating your user"
+            })
+        } else {
+            res.render("deleting", {
+                message: "User deleted"
+            })
+        }
+    })
+
+});
+
+// ? ============================================================================================================================
 
 // landing page render
 app.get("/landing", (req, res) => {
@@ -155,10 +182,15 @@ app.get("/landing", (req, res) => {
 });
 
 
-// registered page render
-app.get("/update", (req, res) => {
+// update render
+app.get("/up", (req, res) => {
     res.render("update")    
 });
+
+
+
+
+
 
 
 
