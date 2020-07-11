@@ -4,6 +4,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deleting</title>
+</head>
+
+<body>
+    <h1>Please confirm deletion by entering the email of the person you wish to remove from the Database:</h1>
+
+    <form action="delRecord" method="POST">
+        <input type="text" name="emailRecord" id="delRecord" placeholder="user@email.com">
+        <button type="submit">Confirm deletion?</button>
+    </form>
+
+    {{message}}
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>deleting</title>
 </head>
 
@@ -11,4 +52,4 @@
     <h1>from deleting page</h1>
 </body>
 
-</html>
+</html> --}}

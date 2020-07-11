@@ -25,6 +25,7 @@
     "mysql": "^2.18.1"
   },
   "devDependencies": {
+    "alert-node": "^3.0.11",
     "nodemon": "^2.0.4"
   }
 }
