@@ -8,26 +8,29 @@
 </head>
 
 <body>
+    <header>
+        {{>home}}
+    </header>
     <h3>Check the details and select what record you want to update.</h3>
 
     <p>{{{details}}}</p>
 
-    <form action="nameSelected">
+    <form action="nameSelected" method="POST">
         <button type="submit">Name?</button>
         <input type="text" name="Name" placeholder="Enter new name" />
-        <input type="text" placeholder="Enter your current password">
+        <input type="text" name="Password" placeholder="Enter your current password">
     </form>
 
-    <form action="emailSelected">
+    <form action="emailSelected" method="POST">
         <button type="submit">Email?</button>
-        <input type="text" placeholder="Enter new name" />
-        <input type="text" placeholder="Enter your current password">
+        <input type="text" name="Email" placeholder="Enter new name" />
+        <input type="text" name="Password" placeholder="Enter your current password">
     </form>
 
-    <form action="passwordSelected">
-        <button type="submit">Email?</button>
-        <input type="text" placeholder="Enter new name" />
-        <input type="text" placeholder="Enter your current password">
+    <form action="passwordSelected" method="POST">
+        <button type="submit">Password?</button>
+        <input type="text" name="Password" placeholder="Enter new name" />
+        <input type="text" name="Password" placeholder="Enter your current password">
     </form>
 
 </body>

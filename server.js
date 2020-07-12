@@ -18,7 +18,11 @@ const Error = "There has been an error we your request, please try again"
 
 
 //? ========================================== PATHS, SETS AND USES ==============================================================
-const viewsPath = path.join(__dirname, '/views');
+const viewsPath = path.join(__dirname, './views');
+const partialPath = path.join(__dirname, './views/inc');
+
+hbs.registerPartials(partialPath);
+
 app.set('view engine', 'hbs');
 app.set('views', viewsPath);
 app.use(express.urlencoded());
@@ -137,7 +141,7 @@ app.post("/register", (req, res) => {
 
 
 // ? ===============================================ADMIN PAGE=========================================================================
-app.get("/admin", (req, res) => {
+app.get("/goAdmin", (req, res) => {
 
     db.query('SELECT * FROM members', (error, results) => {
         console.log(results);
@@ -178,12 +182,12 @@ app.post("/delRecord", (req, res) => {
 });
 // ? ============================================================================================================================
 
-
+// ? ===============================================Members landing page ======================================================
 // landing page render
 app.get("/landing", (req, res) => {
     res.render("landing")    
 });
-
+// ? ============================================================================================================================
 
 
 // ? ============================================== UPDATE PAGE =================================================================
@@ -219,25 +223,44 @@ app.post("/upRecord", (req, res) => {
                 res.render("successUpdating")
             })
 
-            app.get("/" , (req, res) => {
-                res.render('successUpdating')
-            })
+    
 
             app.post("/nameSelected", (req, res) => {
-                let recName = [req.body.Name];
-                // console.log(memberEmail);
+                let NewName = [];
+                NewName = (req.body.Name);
+                let Pass = [];
+                Pass = (req.body.Password);
+                let recordPassSqlCall = ('select password from members where email = ?');    
+                // db.query('SELECT password from members where email = ?',['admin@email.com'] 
+                                             
 
-                db.query('SELECT name FROM members WHERE email = ?',
-                [memberEmail], (error, results) => {
-                    if( error ) {
-                        console.log('record not found')
-                        res.render('successUpdating', {
-                            error: "Sorry Record not found"
-                        })
-                    } else {
+                db.query(recordPassSqlCall, updateByEmail, (error, results) => {
+
+
+                if( error ) {
+                    res.send(Error)
+                
+                } else {
+                    res.send(results)
+                }
+                
+                });
+
+
+                // db.query('SELECT name FROM members WHERE email = ?',
+                // [memberEmail], (error, results) => {
+                //     if( error ) {
+                //         console.log('record not found')
+                //         res.render('successUpdating', {
+                //             error: "Sorry Record not found"
+                //         })
+                //     } else {
+                //         // console.log(NewName);
+                //         // console.log(Pass);
+
                         
-                    }
-                })
+                //     }
+                // })
             })
 
 
