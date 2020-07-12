@@ -14,23 +14,23 @@
 
     <div style="width: fit-content;">
 
-        <ul style="text-align: center;">
+        <ul>
             {{!-- each is like a loop --}}
             {{#each members}}
             {{!-- targeting info from the classic models database --}}
             <li style="list-style-type: none;">Name: {{this.name}} Contact Email {{this.email}}</li>
 
-            <form action="/del">
-                <button type="submit" id="del">Delete User</button>
-            </form>
-
-            <form action="/up">
-                <button type="submit" id="up">Update User</button>
-            </form>
-
             {{/each}}
 
         </ul>
+
+        <form action="/del">
+            <button type="submit" id="del">Delete User</button>
+        </form>
+
+        <form action="/up">
+            <button type="submit" id="up">Update User</button>
+        </form>
 
     </div>
 

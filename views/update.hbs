@@ -4,11 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>update</title>
+    <title>Update</title>
 </head>
 
 <body>
-    <h1>from inside update</h1>
+    <h3>Enter the email of the person you wish to update records </h3>
+    <h4>Members:</h4>
+
+    <ul>
+        {{!-- each is like a loop --}}
+        {{#each members}}
+        {{!-- targeting info from the classic models database --}}
+        <li style="list-style-type: none;"> Name: <strong>{{this.name}}</strong> Member's
+            Email: <strong> {{this.email}}
+            </strong> </li>
+        {{/each}}
+
+    </ul>
+
+    <form action="upRecord" method="POST">
+        <input type="text" name="updateMember" placeholder="Enter email" />
+        <button type="submit" name="updateButton">Update Record?</button>
+    </form>
+
+    <p>{{{details}}}</p>
+
+
 </body>
 
 </html>

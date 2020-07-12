@@ -87,6 +87,11 @@ app.post("/goReg", (req, res) => {
     res.redirect("register")
 })
 //!++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
 // ? ===============================================================================================================================
 
 
@@ -140,23 +145,19 @@ app.get("/admin", (req, res) => {
     })
   
 });
-
-
 // ? =====================================================================================================================================
 
-// ?=============================================DELETING DATABASE RECORDS===============================================================
 
+// ?=============================================DELETING DATABASE RECORDS===============================================================
 // delete render
 app.get("/del", (req, res) => {
     res.render("deleting")    
 });
 
-
-
 app.post("/delRecord", (req, res) => {
     let deleteEmail = req.body.emailRecord;
     let sqlCall = "DELETE  FROM members where email = ?"
-    let locate = req.params.email;
+    let locate = req.params.email; //! check if this is actually doing anything
     let user = [deleteEmail, locate];
 
     db.query( sqlCall, user, (error, results) => {
@@ -173,8 +174,8 @@ app.post("/delRecord", (req, res) => {
     })
 
 });
-
 // ? ============================================================================================================================
+
 
 // landing page render
 app.get("/landing", (req, res) => {
@@ -182,11 +183,42 @@ app.get("/landing", (req, res) => {
 });
 
 
+
+// ? ============================================== UPDATE PAGE =================================================================
 // update render
 app.get("/up", (req, res) => {
-    res.render("update")    
+    db.query('SELECT * FROM members', (error, results) => {
+        res.render("update", {
+            members: results
+        })
+    })
 });
 
+app.post("/upRecord", (req, res) => {
+    let updateByEmail = req.body.updateMember;
+    let sqlUpdateCall = 'SELECT * FROM members where email = ?'
+    let memberEmail = [updateByEmail];
+    console.log(updateByEmail);
+
+        db.query( sqlUpdateCall, memberEmail,  (error, results) => {
+            if(error) {
+                console.log(error);
+                res.render("update", {
+                    message: "There was an error updating your user"
+                })
+            } else {
+                console.log(results)
+                res.render('update', {
+                    details: "You selected " + memberEmail + " to be update "
+                })
+        };
+
+    })
+
+});
+
+
+// ? =========================================================================================================================
 
 
 
@@ -208,11 +240,9 @@ app.get("/test", (req, res) => {
 
 });
 //!+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// ? ======================================================================================================================================
 
 
-
-
+// ? ===================================================================================================================================
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! getaway -> leave alone!
 app.listen(3000, () => {
@@ -220,53 +250,4 @@ app.listen(3000, () => {
 })
 //! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-
-
-
-
-
-
-
-
 // ?========================================================END=========================================================================
-
-
-
-
-
-
-
-
-
-// ! SOME BACKUP BELLOW
-
-// index register(POST) for register
-// app.post("/reg", (req, res) => {
-//     let regEmail = req.body.regEmail;
-//     let regPassword = req.body.regPassword;
-//     let regName = req.body.regName;
-//     if (regName && regEmail && regPassword) {
-//         db.query('SELECT * FROM member WHERE name = ? AND email = ? AND password = ?', [regName, regEmail, regPassword], (error, results) => {
-//             if (results.length > 0) {
-//                 req.render("/registered", {
-//                     message: "Sorry that user has already been taken"
-//                 })
-//             } else {
-//                 db.query('INSERT INTO members SET ?',
-//                 {name: regName, email: regEmail, password: regPassword}, (error, results) => {
-//                     if (error) {
-//                         res.render("/registered", {
-//                             message: "sorry there has been an error, try again"
-//                         })
-//                     } else {
-//                         res.render("register",{
-//                             message: "User successfully registered"
-//                         })
-//                     }
-//                 }
-
-//                 )
-//             }
-//         })
-//     }
-// })
