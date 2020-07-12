@@ -7,6 +7,8 @@ const { create } = require("hbs");
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const hbs = require('hbs');
+const { get } = require("http");
+const { query } = require("express");
 // const alert = require('alert-node')
 
 // other variables
@@ -148,7 +150,7 @@ app.get("/admin", (req, res) => {
 // ? =====================================================================================================================================
 
 
-// ?=============================================DELETING DATABASE RECORDS===============================================================
+// ?=============================================DELETING RECORDS===============================================================
 // delete render
 app.get("/del", (req, res) => {
     res.render("deleting")    
@@ -185,7 +187,6 @@ app.get("/landing", (req, res) => {
 
 
 // ? ============================================== UPDATE PAGE =================================================================
-// update render
 app.get("/up", (req, res) => {
     db.query('SELECT * FROM members', (error, results) => {
         res.render("update", {
@@ -198,19 +199,62 @@ app.post("/upRecord", (req, res) => {
     let updateByEmail = req.body.updateMember;
     let sqlUpdateCall = 'SELECT * FROM members where email = ?'
     let memberEmail = [updateByEmail];
-    console.log(updateByEmail);
 
-        db.query( sqlUpdateCall, memberEmail,  (error, results) => {
+    db.query( sqlUpdateCall, memberEmail,  (error, results) => {
             if(error) {
                 console.log(error);
                 res.render("update", {
                     message: "There was an error updating your user"
                 })
             } else {
-                console.log(results)
-                res.render('update', {
-                    details: "You selected " + memberEmail + " to be update "
+                console.log(results);
+                res.render('updating', {
+                    details: "You selected " + memberEmail + " to be updated "
+            })
+            
+
+
+
+            app.get("/nameSelected", (req, res) => {
+                res.render("successUpdating")
+            })
+
+            app.get("/" , (req, res) => {
+                res.render('successUpdating')
+            })
+
+            app.post("/nameSelected", (req, res) => {
+                let recName = [req.body.Name];
+                // console.log(memberEmail);
+
+                db.query('SELECT name FROM members WHERE email = ?',
+                [memberEmail], (error, results) => {
+                    if( error ) {
+                        console.log('record not found')
+                        res.render('successUpdating', {
+                            error: "Sorry Record not found"
+                        })
+                    } else {
+                        
+                    }
                 })
+            })
+
+
+
+
+
+
+
+            app.post("/emailSelected", (req, res) => {
+                
+            })
+            
+            app.post("/passwordSelected", (req, res) => {
+                
+            })
+            
+
         };
 
     })
@@ -218,8 +262,8 @@ app.post("/upRecord", (req, res) => {
 });
 
 
-// ? =========================================================================================================================
 
+// ? =========================================================================================================================
 
 
 
