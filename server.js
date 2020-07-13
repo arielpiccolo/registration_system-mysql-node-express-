@@ -120,7 +120,7 @@ app.post("/register", (req, res) => {
                 })
             } else {
                 db.query('INSERT INTO members SET ?',
-                {name: Name, email: Email, password: Password}, (error,results) => {
+                {name: Name, email: Email, pass: Password}, (error,results) => {
                     if (error) {
                         res.render("register", {
                             data: "Sorry there has been an error"
