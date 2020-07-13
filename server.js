@@ -203,77 +203,77 @@ app.get("/landing", (req, res) => {
 
 
 // ? ============================================== UPDATE PAGE =================================================================
-app.get("/up", (req, res) => {
-    db.query('SELECT * FROM members', (error, results) => {
-        res.render("update", {
-            members: results
-        })
-    })
+app.post("/updateDetails", (req, res) => {
+    res.redirect('updating');
 });
 
-app.post("/upRecord", (req, res) => {
-    let updateByEmail = req.body.updateMember;
-    let sqlUpdateCall = 'SELECT * FROM members where email = ?'
-    let memberEmail = [updateByEmail];
+app.get('/updating', (req, res) => {
+    res.render('updating')
+});
 
-    db.query( sqlUpdateCall, memberEmail,  (error, results) => {
-            if(error) {
-                console.log(error);
-                res.render("update", {
-                    message: "There was an error updating your user"
-                })
-            } else {
-                console.log(results);
-                res.render('updating', {
-                    details: "You selected " + memberEmail + " to be updated "
-            })
+// app.post("/upRecord", (req, res) => {
+//     let updateByEmail = req.body.updateMember;
+//     let sqlUpdateCall = 'SELECT * FROM members where email = ?'
+//     let memberEmail = [updateByEmail];
+
+//     db.query( sqlUpdateCall, memberEmail,  (error, results) => {
+//             if(error) {
+//                 console.log(error);
+//                 res.render("update", {
+//                     message: "There was an error updating your user"
+//                 })
+//             } else {
+//                 console.log(results);
+//                 res.render('updating', {
+//                     details: "You selected " + memberEmail + " to be updated "
+//             })
             
 
 
 
-            app.get("/nameSelected", (req, res) => {
-                res.render("successUpdating")
-            })
+//             app.get("/nameSelected", (req, res) => {
+//                 res.render("successUpdating")
+//             })
 
     
 
-            app.post("/nameSelected", (req, res) => {
-                let NewName = [];
-                NewName = (req.body.Name);
-                let Pass = [];
-                Pass = (req.body.Password);
-                let recordPassSqlCall = ('select password from members where email = ?');    
-                // db.query('SELECT password from members where email = ?',['admin@email.com'] 
+//             app.post("/nameSelected", (req, res) => {
+//                 let NewName = [];
+//                 NewName = (req.body.Name);
+//                 let Pass = [];
+//                 Pass = (req.body.Password);
+//                 let recordPassSqlCall = ('select password from members where email = ?');    
+//                 // db.query('SELECT password from members where email = ?',['admin@email.com'] 
                                              
 
-                db.query(recordPassSqlCall, updateByEmail, (error, results) => {
+//                 db.query(recordPassSqlCall, updateByEmail, (error, results) => {
 
 
-                if( error ) {
-                    res.send(Error)
+//                 if( error ) {
+//                     res.send(Error)
                 
-                } else {
-                    res.send(results)
-                }
+//                 } else {
+//                     res.send(results)
+//                 }
                 
-                });
+//                 });
 
 
-                // db.query('SELECT name FROM members WHERE email = ?',
-                // [memberEmail], (error, results) => {
-                //     if( error ) {
-                //         console.log('record not found')
-                //         res.render('successUpdating', {
-                //             error: "Sorry Record not found"
-                //         })
-                //     } else {
-                //         // console.log(NewName);
-                //         // console.log(Pass);
+//                 // db.query('SELECT name FROM members WHERE email = ?',
+//                 // [memberEmail], (error, results) => {
+//                 //     if( error ) {
+//                 //         console.log('record not found')
+//                 //         res.render('successUpdating', {
+//                 //             error: "Sorry Record not found"
+//                 //         })
+//                 //     } else {
+//                 //         // console.log(NewName);
+//                 //         // console.log(Pass);
 
                         
-                //     }
-                // })
-            })
+//                 //     }
+//                 // })
+//             })
 
 
 
@@ -281,20 +281,20 @@ app.post("/upRecord", (req, res) => {
 
 
 
-            app.post("/emailSelected", (req, res) => {
+//             app.post("/emailSelected", (req, res) => {
                 
-            })
+//             })
             
-            app.post("/passwordSelected", (req, res) => {
+//             app.post("/passwordSelected", (req, res) => {
                 
-            })
+//             })
             
 
-        };
+//         };
 
-    })
+//     })
 
-});
+// });
 
 
 
