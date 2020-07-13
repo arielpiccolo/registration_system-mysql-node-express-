@@ -65,16 +65,17 @@ app.get("/", (req, res) => {
     res.render("index")    
 });
 
+let email = [''];
 
 // index auth (POST) for login
 app.post('/auth', (req, res) => {
-	let email = req.body.email;
+	email = req.body.email;
 	let password = req.body.password;
 	if (email && password) {
-		db.query('SELECT * FROM members WHERE email = ? AND password = ?', [email, password], (error, results) => {
+		db.query('SELECT * FROM members WHERE email = ? AND pass = ?', [email, password], (error, results) => {
 			if (results.length > 0) {
 				req.session.loggedin = true;
-				req.session.email = email;
+                req.session.email = email;
                 res.redirect('/landing');
 			} else {
 				res.send('<h1>Incorrect Username and/or Password, please try again</h1>');
@@ -185,7 +186,18 @@ app.post("/delRecord", (req, res) => {
 // ? ===============================================Members landing page ======================================================
 // landing page render
 app.get("/landing", (req, res) => {
-    res.render("landing")    
+    db.query('select * from members where email = ?', email, (error, results) => {
+        if(error) {
+            console.log(Error)
+        } else {
+            res.render('landing', {
+                details: results
+
+            })
+        }
+
+    });
+
 });
 // ? ============================================================================================================================
 
