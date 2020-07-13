@@ -21,7 +21,7 @@
             {{!-- each is like a loop --}}
             {{#each members}}
             {{!-- targeting info from the classic models database --}}
-            <li style="list-style-type: none;">Name: {{this.name}} Contact Email {{this.email}}</li>
+            <li style="list-style-type: none;">Name: {{this.name}} Contact Email <strong>{{this.email}}</strong></li>
 
             {{/each}}
 
@@ -31,9 +31,6 @@
             <button type="submit" id="del">Delete User</button>
         </form>
 
-        <form action="/up">
-            <button type="submit" id="up">Update User</button>
-        </form>
 
     </div>
 
