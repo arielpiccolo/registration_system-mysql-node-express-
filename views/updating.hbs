@@ -13,25 +13,14 @@
     </header>
     <h3>Check the details and select what record you want to update.</h3>
 
-    <p>{{{details}}}</p>
-
-    <form action="nameSelected" method="POST">
-        <button type="submit">Name?</button>
-        <input type="text" name="Name" placeholder="Enter new name" />
-        <input type="text" name="Password" placeholder="Enter your current password">
+    <form action="updateDetails" method="POST">
+        <input type="email" name="email" placeholder="Enter new email" />
+        <input type="text" name="name" placeholder="Enter new name" />
+        <input type="password" name="password" placeholder="Enter password" />
+        <button type="submit">Change</button> <br>
+        <p style="color: red;">You will be prompt to provide your current password before making any changes.</p>
     </form>
 
-    <form action="emailSelected" method="POST">
-        <button type="submit">Email?</button>
-        <input type="text" name="Email" placeholder="Enter new name" />
-        <input type="text" name="Password" placeholder="Enter your current password">
-    </form>
-
-    <form action="passwordSelected" method="POST">
-        <button type="submit">Password?</button>
-        <input type="text" name="Password" placeholder="Enter new name" />
-        <input type="text" name="Password" placeholder="Enter your current password">
-    </form>
 
 </body>
 
